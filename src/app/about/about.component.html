@@ -2,8 +2,8 @@
   <li [ngbNavItem]="1">
     <button ngbNavLink>completed tasks</button>
     <ng-template ngbNavContent>
-      <ngb-alert [dismissible]="false" type="success">
-        Better check yourself, you're not looking too good.
+      <ngb-alert [dismissible]="false" type="success" *ngFor="let done of doneTasks$ | async">
+        {{done.title}}
       </ngb-alert>
     </ng-template>
   </li>
@@ -11,8 +11,8 @@
     <button ngbNavLink>In progress tasks</button>
     <ng-template ngbNavContent>
 
-      <ngb-alert [dismissible]="false">
-         Better check yourself, you're not looking too good.
+      <ngb-alert [dismissible]="false" *ngFor="let unDone of unDoneTasks$ | async">
+        {{unDone.title}}
       </ngb-alert>
 
     </ng-template>

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbAlert, NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
-import {Observable} from "rxjs";
+import {async, map, Observable, shareReplay} from "rxjs";
 import {ITodo} from "../interface/itodo";
+import {AsyncPipe, NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-about',
@@ -12,7 +13,9 @@ import {ITodo} from "../interface/itodo";
     NgbNav,
     NgbNavContent,
     NgbNavOutlet,
-    NgbAlert
+    NgbAlert,
+    NgForOf,
+    AsyncPipe
   ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
@@ -20,7 +23,9 @@ import {ITodo} from "../interface/itodo";
 export class AboutComponent implements OnInit {
   active = 1;
   url: string = 'https://jsonplaceholder.typicode.com/todos';
-  http$?: Observable<ITodo[]>
+  http$?: Observable<ITodo[]>;
+  doneTasks$ ?: Observable<ITodo[]>;
+  unDoneTasks$ ?: Observable<ITodo[]>;
 
   ngOnInit() {
 
@@ -42,8 +47,13 @@ export class AboutComponent implements OnInit {
 
     })
 
-  }
+    // for fetch just once
+    this.http$ = this.http$.pipe(shareReplay());
 
+    this.doneTasks$ = this.http$.pipe(map((todo) => todo.filter((task) => task.completed)));
+    this.unDoneTasks$ = this.http$.pipe(map((todo) => todo.filter((task) => !task.completed)));
+
+  }
 
 
 
