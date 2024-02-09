@@ -1,1 +1,22 @@
-<p>about works!</p>
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+  <li [ngbNavItem]="1">
+    <button ngbNavLink>completed tasks</button>
+    <ng-template ngbNavContent>
+      <ngb-alert [dismissible]="false" type="success">
+        Better check yourself, you're not looking too good.
+      </ngb-alert>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="2">
+    <button ngbNavLink>In progress tasks</button>
+    <ng-template ngbNavContent>
+
+      <ngb-alert [dismissible]="false">
+         Better check yourself, you're not looking too good.
+      </ngb-alert>
+
+    </ng-template>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>
